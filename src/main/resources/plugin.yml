@@ -1,0 +1,11 @@
+name: MinelatinoNick
+main: me.gasthiiml.nicks.Main
+version: 1.0
+depend: [TAB]
+commands:
+  nombre:
+    aliases: [nick]
+    description: Main plugin.
+  realname:
+    aliases: [realnick]
+  nickreset:
