@@ -1,0 +1,2 @@
+# MinelatinoNick
+Plugin /nick. 
