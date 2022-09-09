@@ -1,4 +1,5 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'java'
 }
 
@@ -8,6 +9,7 @@ version '1.0'
 repositories {
     mavenCentral()
     mavenLocal()
+    gradlePluginPortal()
 
     maven { url 'https://repo.codemc.io/repository/nms/' }
     maven { url 'https://repo.kryptonmc.org/releases' }
@@ -21,9 +23,12 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
+apply plugin: "com.github.johnrengelman.shadow"
+
 compileJava.options.encoding = 'UTF-8'
 
-tasks.withType(JavaCompile) {
-    setArchivesBaseName('MinelatinoNick')
-    options.encoding = 'UTF-8'
+shadowJar {
+    exclude "META-INF/*"
+    exclude "META-INF/LICENSE"
+    archiveFileName = "MinelatinoNicks.jar"
 }

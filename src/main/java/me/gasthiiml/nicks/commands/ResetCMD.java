@@ -4,6 +4,7 @@ import me.gasthiiml.nicks.Main;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
 import me.neznamy.tab.api.team.UnlimitedNametagManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,10 +21,30 @@ public class ResetCMD implements CommandExecutor {
             return false;
 
         Player player = (Player) sender;
-        TabPlayer tabPlayer = api.getPlayer(player.getUniqueId());
 
         if(!player.hasPermission("minelatino.nick.reset") && !player.isOp())
             return false;
+
+        if(args.length == 1 && player.hasPermission("minelatino.nick.others")) {
+            Player query = Bukkit.getPlayer(args[0]);
+
+            if(query != null && query.isOnline()) {
+                resetNick(query);
+                player.sendMessage(Main.color("&bEl nick de &f" + args[0] + " &bfue reestablecido correctamente."));
+                return false;
+            }
+
+            player.sendMessage(Main.color("&cNo se encontro el jugador de nombre &f" + args[0]));
+            return false;
+        }
+
+        resetNick(player);
+
+        return false;
+    }
+
+    public void resetNick(Player player) {
+        TabPlayer tabPlayer = api.getPlayer(player.getUniqueId());
 
         if(api.getTablistFormatManager() != null)
             api.getTablistFormatManager().resetName(tabPlayer);
@@ -43,8 +64,6 @@ public class ResetCMD implements CommandExecutor {
         player.sendMessage(ChatColor.translateAlternateColorCodes(
                 '&', "&bTu nombre fue reestablecido"
         ));
-
-        return false;
     }
 
 }
